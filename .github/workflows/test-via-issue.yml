@@ -1,0 +1,23 @@
+name: Test Action
+
+on:
+  issues:
+    types: [opened, reopened]
+
+jobs:
+  test:
+    name: Test Action
+    if: contains(github.event.issue.labels.*.name, 'test-action')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Action
+        id: parse
+        uses: ./
+        with:
+          issue_number: ${{ github.event.issue.number }}
+
+      - name: Show parsed payload
+        run: |
+          echo "${{ steps.parse.outputs.payload }}"

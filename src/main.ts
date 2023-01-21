@@ -1,19 +1,26 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from "@actions/core"
+import { parseBody } from "./parser"
+import { getIssueBody } from "./issues"
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    let body: string = core.getInput("body")
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    if (!body) {
+      const issueNumber: number = parseInt(core.getInput("issue_number"))
+      const githubToken: string = core.getInput("github_token")
+      body = await getIssueBody(githubToken, issueNumber)
+    }
 
-    core.setOutput('time', new Date().toTimeString())
+    if (!body) {
+      throw new Error("No body found. Make sure to set either body or issue_number & github_token.")
+    }
+
+    const res = parseBody(body)
+    core.setOutput("payload", res)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
 }
 
-run()
+run();
