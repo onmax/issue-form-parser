@@ -1,8 +1,7 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
-  "private": true,
-  "description": "TypeScript template action",
+  "name": "issue-form-parser",
+  "version": "1.0.0",
+  "description": "A GitHub Action that parses issues created by Issue Forms to JSON format",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -17,12 +16,16 @@
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "setup",
+    "github",
+    "issue form",
+    "parser"
   ],
-  "author": "",
+  "author": "onmax",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0"
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.0",
