@@ -11,6 +11,16 @@ test("One section", async () => {
 });
 
 test("Normal body", async () => {
+  const body = "### name1\r\n\r\n```html`<h1>Hola</h1>```";
+  const res = parseBody(body);
+  const expected = {
+    name1: "```<h1>Hola</h1>```",
+  };
+  expect(res).toEqual(expected);
+});
+
+
+test("Normal body", async () => {
   const body = "### name1\r\n\r\nvalue1\r\n\r\n### This is a longer section\r\n\r\nWith a longer answers!!\n\r\n\rBut it works!!\r\n\r\n### name3\r\n\r\nvalue3";
   const res = parseBody(body);
   const expected = {

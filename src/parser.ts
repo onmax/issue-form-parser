@@ -1,5 +1,4 @@
 import * as core from "@actions/core"
-import { sanitazeString } from "./util";
 
 type IssueFormPayload = Record<string, string | undefined>
 
@@ -7,20 +6,20 @@ type IssueFormPayload = Record<string, string | undefined>
 // SectionName\r\n\r\nsection value option 1 => ["SectionName", "section value option 1"]
 // SectionNameUndefinedValue\r\n\r\n => ["SectionNameUndefinedValue", undefined]
 function parseSection(section: string): { name: string, value?: string } {
-    const sanitazed = sanitazeString(section);
+    const trimmed = section.trim();
 
     // Split on the first \r\n\r\n
     const re = /\r\n\r\n/;
-    const split = sanitazed.search(re);
+    const split = trimmed.search(re);
 
     if (split !== -1) {
         // There is an answer
-        const name = sanitazed.substring(0, split);
-        const value = sanitazed.substring(split + 1).trim();
+        const name = trimmed.substring(0, split);
+        const value = trimmed.substring(split + 1).trim();
         return { name, value };
     } else {
         // No answer
-        return { name: sanitazed, value: undefined };
+        return { name: trimmed, value: undefined };
     }
 }
 
