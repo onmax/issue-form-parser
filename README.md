@@ -1,105 +1,92 @@
 <p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
+  <a href="https://github.com/onmax/issue-form-parser/actions"><img alt="issue-form-parser status" src="https://github.com/onmax/issue-form-parser/actions/workflows/test.yml/badge.svg"></a>
 </p>
 
-# Create a JavaScript Action using TypeScript
+# Issue Form Parser - GitHub Action
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+Convert GitHub Form Issues into JSON objects with this simple Action.
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
+![Issue Form Parser](./issue-form-parser.png)
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+---
 
-## Create an action from this template
+## Description
 
-Click the `Use this Template` and provide the new repo details for your action
+This GitHub Action allows you to easily convert GitHub issues into JSON objects, making it simple to work with and manipulate issue data in your workflow. With just a few simple steps, you can use this action to automatically convert an issue into a JSON object, which can then be used for a variety of purposes, such as data analysis, reporting, or integration with other systems. This action is designed to be flexible and easy to use, so you can quickly and easily convert issues into JSON format without any hassle.
 
-## Code in Main
+## Parameters
 
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
+<!-- table with input name, required, description -->
 
-Install the dependencies  
-```bash
-$ npm install
-```
+| Name | Required | Description |
+| ------------- | ------------- | ------------- |
+| `issue_number` | `true` | The issue number to parse. |
+| `github_token` | `false` | The GitHub token to use for authentication and fetching the issue. Defaults to the `GITHUB_TOKEN` secret. |
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
+## Usage
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+First, you need to create a GitHub Issue Form. You can read more about it [here](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms).
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
+Then, you need to create a workflow file and include the following step:
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+steps:
+  - name: Parse issue
+    id: parse
+    uses: onmax/issue-form-parser@v1.0.0
+    with:
+      issue_number: ${{ github.event.issue.number }}
+
+  # Examples on how to use the output
+  - name: Show parsed payload
+    run: |
+      echo "${{ toJson(steps.parse.outputs.payload) }}"
+  - name: Show 'Name' field
+    run: |
+      echo "${{ steps.parse.outputs.payload['Name'] }}"
 ```
 
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
+## ⚠️ Limitations
 
-## Usage:
+- The action only works with issues, not pull requests.
+- **The `issue_number` input is required.** If the event that trigger the workflow is not an issue, you need to specify the issue number manually.
+- **The returned `payload` is a string.** You need to use `toJson` to convert it to a JSON object. Read more about [GitHub Actions expressions](https://docs.github.com/en/actions/learn-github-actions/expressions#tojson).
+- Checkboxes are not supported. If you need to use checkboxes, you can create a PR or use the [`peter-murray/issue-forms-body-parser@v3.0.0`](https://github.com/peter-murray/issue-forms-body-parser)
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+## Example
+
+This issue:
+
+```md
+### Country
+
+Spain
+
+### Age
+
+The age of the candidate is 17 years old
+
+### Languages
+
+Python, TypeScript, and others...
+
+### How many years of experience do you have?
+
+I have 2 years of experience
+```
+
+Will be converted to:
+
+```json
+{
+  "Country": "Spain",
+  "Age": "The age of the candidate is 17 years old",
+  "Languages": "Python, TypeScript, and others...",
+  "How many years of experience do you have?": "I have 2 years of experience"
+}
+```
+
+## Acknowledgements
+
+- Based on the previous work of [Peter Murray](https://github.com/peter-murray/issue-forms-body-parser)
+- This template was created using the [TypeScript Action Template](https://github.com/actions/typescript-action)
