@@ -8,8 +8,8 @@ export async function getIssueBody(githubToken: string, issueNumber: number): Pr
     if (!issueNumber) {
         throw new Error('Issue number is not defined.');
     }
-    core.debug(`Fetching issue body with issue number ${issueNumber} in ${github.context.repo.owner}/${github.context.repo.repo}`);
 
+    core.debug(`Fetching issue body with issue number ${issueNumber} in ${github.context.repo.owner}/${github.context.repo.repo}`);
     core.debug(`Github token: ${githubToken}`);
     core.debug(`Issue number: ${issueNumber}`);
 

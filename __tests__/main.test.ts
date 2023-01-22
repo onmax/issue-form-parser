@@ -1,12 +1,21 @@
 import { expect, test } from "@jest/globals";
 import { parseBody } from "../src/parser";
 
+test("One section", async () => {
+  const body = "### name1\r\n\r\nvalue 1";
+  const res = parseBody(body);
+  const expected = {
+    name1: "value 1",
+  };
+  expect(res).toEqual(expected);
+});
+
 test("Normal body", async () => {
   const body = "### name1\r\n\r\nvalue1\r\n\r\n### This is a longer section\r\n\r\nWith a longer answers!!\n\r\n\rBut it works!!\r\n\r\n### name3\r\n\r\nvalue3";
   const res = parseBody(body);
   const expected = {
     name1: "value1",
-    "This is a longer section": "With a longer answers!!\n\r\n\rBut it works!!",
+    "This is a longer section": "With a longer answers\!\!\n\r\n\rBut it works\!\!",
     name3: "value3",
   };
   expect(res).toEqual(expected);
@@ -38,6 +47,6 @@ test("Body with SVG as HTML", async () => {
 test("Invalid body", async () => {
   const body = "# This does not have h1.\r\n\r\nAnd this\r\n\r\n## h2";
   expect(() => parseBody(body)).toThrowError(
-    "No section in the form."
+    "Invalid issue body format"
   );
 });

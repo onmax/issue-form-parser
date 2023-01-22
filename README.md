@@ -38,19 +38,21 @@ steps:
       issue_number: ${{ github.event.issue.number }}
 
   # Examples on how to use the output
-  - name: Show parsed payload
+  - name: Show parsed payload data
     run: |
-      echo "${{ toJson(steps.parse.outputs.payload) }}"
-  - name: Show 'Name' field
-    run: |
-      echo "${{ steps.parse.outputs.payload['Name'] }}"
+      # Using the character `'` to prevent all characters enclosed within
+      # them from being treated as special characters (e.g. $ or `)
+      echo '${{ steps.parse.outputs.payload }}'
+
+      # Print the value of the "Name" field
+      echo '${{ fromJson(steps.parse.outputs.payload)["Name"] }}'
 ```
 
 ## ⚠️ Limitations
 
 - The action only works with issues, not pull requests.
 - **The `issue_number` input is required.** If the event that trigger the workflow is not an issue, you need to specify the issue number manually.
-- **The returned `payload` is a string.** You need to use `toJson` to convert it to a JSON object. Read more about [GitHub Actions expressions](https://docs.github.com/en/actions/learn-github-actions/expressions#tojson).
+- **The returned `payload` is a string.** You need to use `fromJson` to convert it to a JSON object. Read more about [GitHub Actions expressions](https://docs.github.com/en/actions/learn-github-actions/expressions#fromJson).
 - Checkboxes are not supported. If you need to use checkboxes, you can create a PR or use the [`peter-murray/issue-forms-body-parser@v3.0.0`](https://github.com/peter-murray/issue-forms-body-parser)
 
 ## Example
