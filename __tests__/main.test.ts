@@ -11,10 +11,10 @@ test("One section", async () => {
 });
 
 test("Normal body", async () => {
-  const body = "### name1\r\n\r\n```html`<h1>Hola</h1>```";
+  const body = "### name1\r\n\r\nhtml```<h1>Hola</h1>```";
   const res = parseBody(body);
   const expected = {
-    name1: "```<h1>Hola</h1>```",
+    name1: "html```<h1>Hola</h1>```",
   };
   expect(res).toEqual(expected);
 });
