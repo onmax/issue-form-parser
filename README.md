@@ -33,7 +33,7 @@ Then, you need to create a workflow file and include the following step:
 steps:
   - name: Parse issue
     id: parse
-    uses: onmax/issue-form-parser@v1
+    uses: onmax/issue-form-parser@v1.1
     with:
       issue_number: ${{ github.event.issue.number }}
 
