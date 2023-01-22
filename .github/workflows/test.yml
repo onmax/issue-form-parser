@@ -12,7 +12,6 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - run: |
           npm install
       - run: |
@@ -24,7 +23,6 @@ jobs:
         uses: ./
         with:
           issue_number: ${{ github.event.issue.number || 10 }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Show parsed payload
         run: |
           echo "${{ toJson(steps.parse.outputs.payload) }}"
