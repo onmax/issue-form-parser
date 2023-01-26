@@ -1,11 +1,23 @@
-// See https://containers.dev/implementors/json_reference/ for configuration reference
+// Update the VARIANT arg in docker-compose.yml to pick a Node.js version
 {
-	"name": "Untitled Node.js project",
-	"build": {
-		"dockerfile": "Dockerfile"
+	"name": "Node.js",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"GitHub.copilot"
+			]
+		}
 	},
-"remoteUser": "node",
-"features": {
-	"ghcr.io/devcontainers-contrib/features/jest:2": {}
-}
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [3000, 27017],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "node"
 }

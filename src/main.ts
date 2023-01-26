@@ -1,15 +1,21 @@
 import * as core from "@actions/core"
-import { parseBody } from "./parser"
-import { getIssueBody } from "./issues"
+import * as github from '@actions/github'
+import { parseIssue } from "./parser"
 
 async function run(): Promise<void> {
   try {
     const issueNumber = parseInt(core.getInput("issue_number", { required: true }))
     const githubToken = core.getInput("github_token", { required: true })
-    const body = await getIssueBody(githubToken, issueNumber)
-    if (!body) throw new Error(`Failed to get body from issue number ${issueNumber}`)
 
-    const res = parseBody(body)
+    const issue = {
+      ...github.context.repo,
+      number: issueNumber
+    }
+    const options = {
+      debug: core.debug
+    }
+    const res = await parseIssue(issue, githubToken, options)
+
     core.setOutput("payload", JSON.stringify(res))
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

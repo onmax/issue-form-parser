@@ -16,11 +16,10 @@ This GitHub Action allows you to easily convert GitHub issues into JSON objects,
 
 ## Parameters
 
-<!-- table with input name, required, description -->
-
 | Name | Required | Description |
 | ------------- | ------------- | ------------- |
 | `issue_number` | `true` | The issue number to parse. |
+| `issue_form_template` | `false` | Only required if you are using GitHub Issue forms. The path to the issue template file. Somthing like to `.github/ISSUE_TEMPLATE/YOUR_TEMPLATE.yml`. If not provided, the action will try to find the issue template file in the `.github/ISSUE_TEMPLATE` folder. |
 | `github_token` | `false` | The GitHub token to use for authentication and fetching the issue. Defaults to the `GITHUB_TOKEN` secret. |
 
 ## Usage
@@ -33,7 +32,7 @@ Then, you need to create a workflow file and include the following step:
 steps:
   - name: Parse issue
     id: parse
-    uses: onmax/issue-form-parser@v1.1
+    uses: onmax/issue-form-parser@v1.2
     with:
       issue_number: ${{ github.event.issue.number }}
 
@@ -87,6 +86,59 @@ Will be converted to:
   "How many years of experience do you have?": "I have 2 years of experience"
 }
 ```
+
+
+## Learn more about the parser
+
+<details>
+<summary>Open me!</summary>
+
+## Types of issues
+
+To understand and format the issues, first we need to understand the different types of issues that can be created using GitHub UI. There are two types of issues that can be created:
+
+### Issue Form
+
+This types of forms are created using the issue form feature, where the user needs to fill in the form. The content of the issue is the form itself, and the user's answers are in the body of the issue.
+
+```md
+### Question 1\n\nAnswer 1\n\n### Question 2\n\nAnswer 2\n\n### Question 3\n\nAnswer 3
+```
+
+This issue will be parsed as:
+
+```json
+{
+  "Question 1": "Answer 1",
+  "Question 2": "Answer 2",
+  "Question 3": "Answer 3"
+}
+```
+
+### Regular issue
+
+This types of forms are the more traditional ones, where the user can write whatever they want in the body of the issue. The content of the issue is the body of the issue.
+
+```md
+# Question 1\r\n\r\nThis is my answer\r\n\r\n## Question 2\r\n\r\nThis is my second answer\r\n\r\n#### Question 3\r\n\r\nThis is my third answer
+```
+
+This issue will be parsed as:
+
+```json
+{
+  "Question 1": "This is my answer",
+  "Question 2": "This is my second answer",
+  "Question 3": "This is my third answer"
+}
+```
+
+> As you can see, Regular issues required to have a title followed by a block with the answer.
+
+You can see the two types of issues here:
+- [Issue Form](https://api.github.com/repos/onmax/nimiq-icons/issues/113)
+- [Regular issue](https://api.github.com/repos/onmax/issue-form-parser/issues/10)
+</details>
 
 ## Acknowledgements
 

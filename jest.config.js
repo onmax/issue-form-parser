@@ -5,5 +5,8 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },
-  verbose: true
+  verbose: true,
+  moduleNameMapper: {
+    '^axios$': require.resolve('axios'),
+  },
 }

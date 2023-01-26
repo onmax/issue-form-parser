@@ -1,0 +1,32 @@
+name: Issue form template
+description: Just a test issue form template
+title: "Issue form template"
+labels: ["test-action"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a test issue form template
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: Your name
+      placeholder: ex. 'Julio'
+    validations:
+      required: true
+  - type: input
+    id: lastname
+    attributes:
+      label: Lastname
+      description: Your lastname
+      placeholder: ex. 'Perez'
+    validations:
+      required: true
+  - type: textarea
+    id: textarea
+    attributes:
+      label: How do you know about us?
+      description: Say anything about us!
+    validations:
+      required: true
