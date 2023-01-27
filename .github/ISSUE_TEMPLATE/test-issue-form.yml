@@ -30,3 +30,26 @@ body:
       description: Say anything about us!
     validations:
       required: true
+  - type: dropdown
+    id: languages
+    attributes:
+      label: Languages
+      description: Languages you know
+      multiple: true
+      options:
+        - Spanish
+        - English
+        - French
+        - German
+        - Italian
+    validations:
+      required: true
+  - type: checkboxes
+    id: newsletter
+    attributes:
+      label: Would you like to receive our newsletter?
+      description: We send it as you want. You can select more than one option.
+      options:
+        - label: Marketing and updates
+        - label: Technical articles
+        - label: Other

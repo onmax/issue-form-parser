@@ -8,6 +8,10 @@ interface ParseIssueOptions {
     debug: (str: string) => void
 }
 
+type CheckboxInput = { [key: string]: boolean }
+type DropdownInput = string[]
+type TextInput = string
+type IssueFormPayloadValue = CheckboxInput | DropdownInput | TextInput | undefined
 interface IssueFormPayload {
-    [key: string]: string | undefined
+    [key: string]: IssueFormPayloadValue
 }

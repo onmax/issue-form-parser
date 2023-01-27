@@ -19,7 +19,6 @@ This GitHub Action allows you to easily convert GitHub issues into JSON objects,
 | Name | Required | Description |
 | ------------- | ------------- | ------------- |
 | `issue_number` | `true` | The issue number to parse. |
-| `issue_form_template` | `false` | Only required if you are using GitHub Issue forms. The path to the issue template file. Somthing like to `.github/ISSUE_TEMPLATE/YOUR_TEMPLATE.yml`. If not provided, the action will try to find the issue template file in the `.github/ISSUE_TEMPLATE` folder. |
 | `github_token` | `false` | The GitHub token to use for authentication and fetching the issue. Defaults to the `GITHUB_TOKEN` secret. |
 
 ## Usage
@@ -69,11 +68,18 @@ The age of the candidate is 17 years old
 
 ### Languages
 
-Python, TypeScript, and others...
+Python, TypeScript, others...
 
 ### How many years of experience do you have?
 
 I have 2 years of experience
+
+### What languages do you know?
+
+- [x] Python
+- [X] TypeScript
+- [ ] JavaScript
+- [ ] C++
 ```
 
 Will be converted to:
@@ -82,16 +88,22 @@ Will be converted to:
 {
   "Country": "Spain",
   "Age": "The age of the candidate is 17 years old",
-  "Languages": "Python, TypeScript, and others...",
-  "How many years of experience do you have?": "I have 2 years of experience"
+  "Languages": [ "Python", "TypeScript", "others..." ],
+  "How many years of experience do you have?": "I have 2 years of experience",
+  "What languages do you know?": { "Python": true, "TypeScript": true, "JavaScript": false, "C++": false }
 }
 ```
+
+### 📝 Notes
+
+- If you use Dropdowns with multiple answers, the answers will be an array. This is also true for answers that are separated by commas.
+- If you use Checkboxes, the answers will be an object with the name of the checkbox as the key and the value will be `true` if the checkbox is checked, and `false` if it is not.
 
 
 ## Learn more about the parser
 
 <details>
-<summary>Open me!</summary>
+<summary>Types of issues</summary>
 
 ## Types of issues
 
@@ -139,6 +151,52 @@ You can see the two types of issues here:
 - [Issue Form](https://api.github.com/repos/onmax/nimiq-icons/issues/113)
 - [Regular issue](https://api.github.com/repos/onmax/issue-form-parser/issues/10)
 </details>
+
+<details>
+<summary>Special inputs</summary>
+
+## Types of inputs
+
+Apart from the `input` and `textarea` inputs, there are other types of inputs that can be used in GitHub forms:
+
+### Dropdown
+
+With the dropdown input, the user can select one or more options from a list. In the markdown, the options are separated by commas.
+
+```md
+### Languages\n\nSpanish, English, German
+```
+
+This issue will be parsed as:
+
+```json
+{
+  "Languages": ["Spanish", "English", "German"]
+}
+```
+
+### Checkboxes
+
+With the checkboxes input, the user can select one or more options from a list. In the markdown, the options are separated by commas.
+
+```md
+### Languages\n\n- [X] Spanish\n- [ ] English\n- [X] German
+```
+
+This issue will be parsed as:
+
+```json
+{
+  "Languages": {
+    "Spanish": true,
+    "English": false,
+    "German": true
+  }
+}
+```
+</details>
+
+
 
 ## Acknowledgements
 
