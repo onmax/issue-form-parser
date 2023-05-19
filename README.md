@@ -51,7 +51,6 @@ steps:
 - The action only works with issues, not pull requests.
 - **The `issue_number` input is required.** If the event that trigger the workflow is not an issue, you need to specify the issue number manually.
 - **The returned `payload` is a string.** You need to use `fromJson` to convert it to a JSON object. Read more about [GitHub Actions expressions](https://docs.github.com/en/actions/learn-github-actions/expressions#fromJson).
-- Checkboxes are not supported. If you need to use checkboxes, you can create a PR or use the [`peter-murray/issue-forms-body-parser@v3.0.0`](https://github.com/peter-murray/issue-forms-body-parser)
 
 ## Example
 
