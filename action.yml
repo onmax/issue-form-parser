@@ -12,11 +12,13 @@ inputs:
     description: 'The issue number to parse'
   github_token:
     required: true
-    description: 'The GitHub token to use for authentication and fetching the issue. Defaults to the `GITHUB_TOKEN` secret.'
+    description:
+      'The GitHub token to use for authentication and fetching the issue.
+      Defaults to the `GITHUB_TOKEN` secret.'
     default: ${{ github.token }}
 outputs:
   payload:
     description: 'The contents of the issue in a JSON format'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node20
+  main: dist/index.js

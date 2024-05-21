@@ -1,7 +1,7 @@
 name: Issue form template
 description: Just a test issue form template
-title: "Issue form template"
-labels: ["test-action"]
+title: 'Issue form template'
+labels: ['test-action']
 body:
   - type: markdown
     attributes:
