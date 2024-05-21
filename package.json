@@ -6,10 +6,9 @@
   "scripts": {
     "build": "npm run package",
     "ci-test": "npx jest",
-    "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg",
     "package": "tsc",
     "test": "npx jest",
-    "all": "npm run test && npm run coverage && npm run package"
+    "all": "npm run test && npm run package"
   },
   "repository": {
     "type": "git",
