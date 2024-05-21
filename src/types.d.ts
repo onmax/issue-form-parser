@@ -1,17 +1,21 @@
 interface Issue {
-    owner: string,
-    repo: string,
-    number: number,
+  owner: string
+  repo: string
+  number: number
 }
 
 interface ParseIssueOptions {
-    debug: (str: string) => void
+  debug: (str: string) => void
 }
 
 type CheckboxInput = { [key: string]: boolean }
 type DropdownInput = string[]
 type TextInput = string
-type IssueFormPayloadValue = CheckboxInput | DropdownInput | TextInput | undefined
+type IssueFormPayloadValue =
+  | CheckboxInput
+  | DropdownInput
+  | TextInput
+  | undefined
 interface IssueFormPayload {
-    [key: string]: IssueFormPayloadValue
+  [key: string]: IssueFormPayloadValue
 }

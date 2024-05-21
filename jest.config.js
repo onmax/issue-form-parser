@@ -7,6 +7,6 @@ module.exports = {
   },
   verbose: true,
   moduleNameMapper: {
-    '^axios$': require.resolve('axios'),
-  },
+    '^axios$': require.resolve('axios')
+  }
 }
