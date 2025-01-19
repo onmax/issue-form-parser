@@ -78,7 +78,7 @@ test('Simple dropdown', async () => {
 })
 
 test('Checkbox', async () => {
-  const body = '### name1\n\n- [X] value1\n- [ ] value2\n- [x] value3'
+  const body = '### name1\n\n- [x] value1\n- [ ] value2\n- [X] value3'
   const res = parseIssueBody(body, { debug: console.log })
   const expected = {
     name1: { value1: true, value2: false, value3: true }
