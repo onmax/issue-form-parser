@@ -1,6 +1,6 @@
 {
   "name": "issue-form-parser",
-  "version": "20",
+  "version": "1.6.0",
   "description": "A GitHub Action that parses issues created by Issue Forms to JSON format",
   "main": "lib/main.js",
   "scripts": {
