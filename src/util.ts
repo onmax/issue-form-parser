@@ -36,7 +36,7 @@ function parseDropdownValue(value: string): DropdownInput {
 }
 
 function isCheckbox(value: string): boolean {
-  const isCheckboxRegex = /^- \[[ X]\] /
+  const isCheckboxRegex = /^- \[[ Xx]\] /
   return isCheckboxRegex.test(value)
 }
 
