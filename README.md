@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/onmax/issue-form-parser/actions"><img alt="issue-form-parser status" src="https://github.com/onmax/issue-form-parser/actions/workflows/test.yml/badge.svg"></a>
+  <a href="https://github.com/onmax/issue-form-parser/actions"><img alt="issue-form-parser status" src="https://comark-ui.onmax.me/badge.svg?source=github-actions&amp;repository=onmax%2Fissue-form-parser&amp;workflow=test.yml&amp;branch=main&amp;icon=github"></a>
 </p>
 
 # Issue Form Parser - GitHub Action
